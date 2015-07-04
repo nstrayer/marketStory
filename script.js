@@ -40,7 +40,19 @@ d3.csv("stateData.csv", function(data){
             updateBars("popPerMarket")
         })
 
-    // console.table(data)
+    // svg.selectAll("circle")
+    //     .data(data)
+    //     .enter()
+    //     .append("circle")
+    //     .attr("cx", function(d,i){return x(i)})
+    //     .attr("cy", function(d){return y(d.numMarkets)})
+    //     .attr("r", 5)
+    //     .attr("fill", "#7fcdbb")
+    //     .on("mouseover", function(d){
+    //         console.log(d)
+    //         updateBars("popPerMarket")
+    //     })
+    console.table(data)
 
     //I put my functions down here.
 
@@ -50,9 +62,20 @@ d3.csv("stateData.csv", function(data){
         svg.selectAll("rect")
             .transition()
             .duration(1500)
+            .delay(function(d,i){return i*50})
             .attr("y", function(d){return y(d[key])})
             .attr("height", function(d){return height - y(d[key])})
     }
+
+    // var changeSize = function(key) {
+    //     y.domain([0, d3.max(data, function(d){return d[key]})])
+    //
+    //     svg.selectAll("circle")
+    //         .transition()
+    //         .duration(1500)
+    //         .delay(function(d,i){return i*50})
+    //         .attr("cy", function(d){return y(d[key])})
+    // }
 
     var updateBars = function(key) {
         svg.selectAll("rect")
@@ -64,4 +87,16 @@ d3.csv("stateData.csv", function(data){
                // 10 is totally arbitrary. I just only want it going once.
                if (i == 10){changeSize(key)}})
     };
+
+
+    // var updateBars = function(key) {
+    //     svg.selectAll("circle")
+    //        .sort(function(a, b) { return d3.descending(a[key], b[key])})
+    //        .transition()
+    //        .duration(1500)
+    //        .attr("cx", function(d, i) { return x(i) })
+    //        .each("end", function(d,i){
+    //            // 10 is totally arbitrary. I just only want it going once.
+    //            if (i == 10){changeSize(key)}})
+    // };
 })
