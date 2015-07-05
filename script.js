@@ -38,15 +38,15 @@ d3.csv("stateData.csv", function(data){
     //both scales are called at the same time in the lines I couldn't think of one.
 
     var yNumMarkets = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.numMarkets})])
+        .domain(d3.extent(data, function(d){return d.numMarkets}))
         .range([height - padding, padding])
 
     var yPopPerMarket = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.popPerMarket})])
+        .domain(d3.extent(data, function(d){return d.popPerMarket}))
         .range([padding, height - padding])
 
     var yPercAg = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.percAg})])
+        .domain(d3.extent(data, function(d){return d.percAg}))
         .range([height - padding, padding])
 
     svg.selectAll("circle")
@@ -63,6 +63,22 @@ d3.csv("stateData.csv", function(data){
     //Start drawing the trend lines.
     //This is broken up into different steps because in order to animate the lines,
     //they must already be drawn. This also allows us to attach data to them.
+
+    //First we draw the axis lines:
+    steps = [0,1,2]
+    svg.selectAll(".axisLines")
+        .data(steps)
+        .enter()
+        .append("line")
+        .attr("x1", function(d){return x(d)} )     // x position of the first end of the line
+        .attr("y1", height - padding)      // y position of the first end of the line
+        .attr("x2", function(d){return x(d)} )     // x position of the second end of the line
+        .attr("y2", padding)    // y position of the second end of the line
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .style("opacity",0.8);
+
+
     svg.selectAll(".step0")
         .data(data)
         .enter()
@@ -76,6 +92,7 @@ d3.csv("stateData.csv", function(data){
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
         .style("opacity",0);
+
 
     svg.selectAll(".step1")
         .data(data)
@@ -121,7 +138,15 @@ d3.csv("stateData.csv", function(data){
             var lastScale = yPercAg
         }
 
-        svg.selectAll("circle")
+        //draw new circles right on top of the old ones, and animate to new position.
+        svg.selectAll("circle.step" + count+1)
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d,i){return x(count)})
+            .attr("cy", function(d){return lastScale(d[last])})
+            .attr("r", 5)
+            .attr("fill", "#2ca25f")
             .transition()
             .duration(2500)
             .ease("linear")
