@@ -23,11 +23,14 @@ d3.csv("stateData.csv", function(data){
     data.forEach(function(d){
         d.Pop = +d.Pop
         d.numMarkets = +d.numMarkets
+        d.numMarketsRank = +d.numMarketsRank
         d.popPerMarket = +d.popPerMarket
+        d.popPerMarketRank = +d.popPerMarketRank
         d.gdpAg = +d.gdpAg
         d.gdpAll = +d.gdpAll
         d.gdpAll = +d.gdpAll
         d.percAg = +d.percAg
+        d.percAgRank = +d.percAgRank
     })
 
     //We want to have the steps equaly spaced across the screen
@@ -134,7 +137,7 @@ d3.csv("stateData.csv", function(data){
         .style("opacity",0);
 
 
-    // console.table(data) //A nice way to checkout out the data.
+    console.table(data) //A nice way to checkout out the data.
 
     d3.select("h1").on("click", function(){
          changePosition()
