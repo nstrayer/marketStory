@@ -7,7 +7,9 @@ d3.selection.prototype.moveToFront = function() {
 
 var height = 500,
     width = 800,
-    padding = 10;
+    padding = 30,
+    color = "#4daf4a"
+    selectedColor = "#e41a1c";
 
 var svg = d3.select("#viz").append("svg")
     .attr("height", height)
@@ -31,7 +33,7 @@ d3.csv("stateData.csv", function(data){
     //We want to have the steps equaly spaced across the screen
     var x = d3.scale.ordinal()
         .domain(d3.range(3))
-		.rangeRoundBands([0,width],0.2);
+		.rangeRoundBands([padding*2,width],0.2);
 
     //Set up scaling functions for each of the displayed statistics.
     //There is probably a more efficient way of doing this, but given that
@@ -49,6 +51,30 @@ d3.csv("stateData.csv", function(data){
         .domain(d3.extent(data, function(d){return d.percAg}))
         .range([height - padding, padding])
 
+    //First we draw the axis lines:
+    steps = ["# of Farmers Markets", "# People Per Market", "% of GDP from Agriculture"]
+    svg.selectAll(".axisLines")
+        .data(steps).enter()
+        .append("line")
+        .attr("x1", function(d,i){return x(i)} )     // x position of the first end of the line
+        .attr("y1", height - padding)      // y position of the first end of the line
+        .attr("x2", function(d,i){return x(i)} )     // x position of the second end of the line
+        .attr("y2", padding)    // y position of the second end of the line
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .style("opacity",0.8);
+
+    svg.selectAll(".axisLineText")
+        .data(steps).enter()
+        .append("text")
+        .attr("x", function(d,i){return x(i)})
+        .attr("y", padding/2)
+        .text(function(d){return d})
+        .attr("font-family", "optima")
+        .attr("font-size", "15px")
+        .attr("text-anchor", "middle")
+        .style("fill", "black")
+
     svg.selectAll("circle")
         .data(data)
         .enter()
@@ -57,26 +83,12 @@ d3.csv("stateData.csv", function(data){
         .attr("cx", function(d,i){return x(count)})
         .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
         .attr("r", 5)
-        .attr("fill", "#2ca25f")
+        .attr("fill", color)
         .on("click", function(d){ changePosition() })
 
     //Start drawing the trend lines.
     //This is broken up into different steps because in order to animate the lines,
     //they must already be drawn. This also allows us to attach data to them.
-
-    //First we draw the axis lines:
-    steps = [0,1,2]
-    svg.selectAll(".axisLines")
-        .data(steps)
-        .enter()
-        .append("line")
-        .attr("x1", function(d){return x(d)} )     // x position of the first end of the line
-        .attr("y1", height - padding)      // y position of the first end of the line
-        .attr("x2", function(d){return x(d)} )     // x position of the second end of the line
-        .attr("y2", padding)    // y position of the second end of the line
-        .attr("stroke", "black")
-        .attr("stroke-width", 1)
-        .style("opacity",0.8);
 
 
     svg.selectAll(".step0")
@@ -143,10 +155,11 @@ d3.csv("stateData.csv", function(data){
             .data(data)
             .enter()
             .append("circle")
+            .attr("class", function(d){return d.abrev})
             .attr("cx", function(d,i){return x(count)})
             .attr("cy", function(d){return lastScale(d[last])})
             .attr("r", 5)
-            .attr("fill", "#2ca25f")
+            .attr("fill", color)
             .transition()
             .duration(2500)
             .ease("linear")
@@ -179,16 +192,19 @@ function animatelines(step) {
     })
 }
 
-function highlight(state, step){
+function highlight(state, col){
     //select Point
-    d3.select("circle." + state)
+    d3.selectAll("circle." + state)
         .moveToFront()
-        .attr("fill", "red")
+        .attr("fill", col)
 
     //select Line
-    d3.selectAll("line." + step + "." + state)
+    d3.selectAll("line." + state)
         .moveToFront()
         .attr("stroke-width", 3)
-        .attr("stroke", "red")
-
+        .attr("stroke", col)
 }
+
+//Run These to show interesting things.
+// highlight("TX", selectedColor)
+// highlight("VT", "#ff7f00")
