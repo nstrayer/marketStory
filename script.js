@@ -25,23 +25,25 @@ d3.csv("stateData.csv", function(data){
 		.rangeRoundBands([0,width],0.2);
 
     var yNumMarkets = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.numMarkets})])
+        .domain([0, data.length - 1])
         .range([height - padding, padding])
 
     var yPopPerMarket = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.popPerMarket})])
+        .domain([0, data.length - 1])
         .range([height - padding, padding])
 
     var yPercAg = d3.scale.linear()
-        .domain([0, d3.max(data, function(d){return d.percAg})])
+        .domain([0, data.length - 1])
         .range([height - padding, padding])
+
 
     svg.selectAll("circle")
         .data(data)
+        .sort(function(a, b) { return d3.descending(a.numMarkets, b.numMarkets)})
         .enter()
         .append("circle")
         .attr("cx", function(d,i){return padding})
-        .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
+        .attr("cy", function(d){return yNumMarkets(i)})
         .attr("r", 5)
         .attr("fill", "#2ca25f")
         .on("click", function(d){
@@ -53,15 +55,16 @@ d3.csv("stateData.csv", function(data){
 
     svg.selectAll(".step0")
         .data(data)
+        .sort(function(a, b) { return d3.descending(a.numMarkets, b.numMarkets)})
         .enter()
         .append("line")
         // .attr("id", function(d,i){return "line" + i})
         .attr("id", function(d,i){return "step0_line" + i})
         .attr("class", function(d,i) {return "line step0 " + d.abrev })
         .attr("x1", padding )     // x position of the first end of the line
-        .attr("y1", function(d){return yNumMarkets(d.numMarkets)})      // y position of the first end of the line
+        .attr("y1", function(d,i){return yNumMarkets(i)})      // y position of the first end of the line
         .attr("x2", padding + 200)     // x position of the second end of the line
-        .attr("y2", function(d){return yPopPerMarket(d.popPerMarket)})    // y position of the second end of the line
+        .attr("y2", function(d,i){return yPopPerMarket(i)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         // .attr("stroke-opacity", 0.5)
         .attr("stroke-width", 1)
@@ -70,14 +73,15 @@ d3.csv("stateData.csv", function(data){
 
     svg.selectAll(".step1")
         .data(data)
+        .sort(function(a, b) { return d3.descending(a.popPerMarket, b.popPerMarket)})
         .enter()
         .append("line")
         .attr("id", function(d,i){return "step1_line" + i})
         .attr("class", function(d,i) {return "line step1 " + d.abrev })
         .attr("x1", padding + 200)     // x position of the first end of the line
-        .attr("y1", function(d){return yPopPerMarket(d.popPerMarket)})      // y position of the first end of the line
+        .attr("y1", function(d,i){return yPopPerMarket(d.popPerMarket)})      // y position of the first end of the line
         .attr("x2", padding + 200*2)     // x position of the second end of the line
-        .attr("y2", function(d){return yPercAg(d.percAg)})    // y position of the second end of the line
+        .attr("y2", function(d,i){return yPercAg(d.percAg)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         // .attr("stroke-opacity", 0.5)
         .attr("stroke-width", 1)
@@ -143,7 +147,6 @@ function animatelines(step) {
 	  .ease("linear") //Try linear, quad, bounce... see other examples here - http://bl.ocks.org/hunzy/9929724
 	  .attr("stroke-dashoffset", 0)
 	//   .style("stroke-width",3)
-
     })
 
 }
