@@ -14,3 +14,9 @@
 Measure $ = \frac{\text{markets per person}}{\% \text{gpd from ag}}$ 
 
 if we have a low gdp % and high per person ratio this becomes small.  
+
+
+Make the visualization a trend chart. 
+Each line represents the different steps. At each step a line is animated from it's current position to the next position.
+
+Problems that might arise: Clustering of states. Could put in a search feature to fix this. Point would be to highlight the outlier states. 
