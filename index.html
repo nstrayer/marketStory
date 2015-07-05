@@ -1,20 +1,46 @@
+</html>
+
 <!DOCTYPE html>
 <meta charset="utf-8">
+<style>
+.state rect {
+  fill: #dedede;
+}
+.state text {
+  font: 12px sans-serif;
+  text-anchor: middle;
+}
+.state--selected rect {
+  fill: #9f4a6c;
+}
+.state--selected text {
+  fill: white;
+}
+</style>
 
-<body>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="jquery.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
 
-    <!-- <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="jquery.min.js"></script> -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
+<div id = "menu" class = "col-md-4 col-sm-12">
+<h1> State: </h1> <strong id = "stateLabel"> </strong>
 
-    <div id = "viz" class = "col-md-8 col-sm-12"></div>
-
-    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-    <!-- // <script src="js/bootstrap.min.js"></script> -->
-    <script src="script.js"></script>
-
-</body>
-
-</html>
+</div>
+<div id = "viz" class = "col-md-8 col-sm-12"></div>
+<!-- <svg width="960" height="500"></svg> -->
+<script id="grid" type="text/plain">
+                              ME
+               WI          VT NH
+WA ID MT ND MN IL MI    NY MA
+OR NV WY SD IA IN OH PA NJ CT RI
+CA UT CO NE MO KY WV VA MD DE
+   AZ NM KS AR TN NC SC
+         OK LA MS AL GA
+HI AK    TX             FL
+</script>
+<script src = "someFunctions.js"></script>
+<script src = "mapScript.js"></script>
+<script src="script.js"></script>
+<script src="js/bootstrap.min.js"></script>

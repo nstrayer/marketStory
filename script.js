@@ -5,8 +5,8 @@ d3.selection.prototype.moveToFront = function() {
   });
 };
 
-var height = 500,
-    width = 800,
+var width = parseInt(d3.select("#viz").style("width").slice(0, -2)) - 20,
+    height = $(window).height() - 85,
     padding = 30,
     color = "#4daf4a"
     selectedColor = "#e41a1c";
@@ -84,7 +84,9 @@ d3.csv("stateData.csv", function(data){
         .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
         .attr("r", 5)
         .attr("fill", color)
-        .on("click", function(d){ changePosition() })
+        // .on("mouseover", function(d){ highlight(d.abrev, "on", "red") })
+        // .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
+        // .on("click", function(d){ changePosition() })
 
     //Start drawing the trend lines.
     //This is broken up into different steps because in order to animate the lines,
@@ -103,6 +105,11 @@ d3.csv("stateData.csv", function(data){
         .attr("y2", function(d){return yPopPerMarket(d.popPerMarket)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
+        .on("mouseover", function(d){
+            d3.select("strong#stateLabel").text("")
+            d3.select("strong#stateLabel").text(d.State)
+            highlight(d.abrev, "on", "red") })
+        .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
         .style("opacity",0);
 
 
@@ -118,11 +125,20 @@ d3.csv("stateData.csv", function(data){
         .attr("y2", function(d){return yPercAg(d.percAg)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
+        .on("mouseover", function(d){
+            d3.select("strong#stateLabel").text("")
+            d3.select("strong#stateLabel").text(d.State)
+            highlight(d.abrev, "on", "red")
+            })
+        .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
         .style("opacity",0);
 
 
     // console.table(data) //A nice way to checkout out the data.
 
+    d3.select("h1").on("click", function(){
+         changePosition()
+    })
     //I put my functions down here.
 
     //Move the circle and animate the lines.
@@ -166,6 +182,7 @@ d3.csv("stateData.csv", function(data){
             .attr("cy", function(d){return scale(d[key])})
             .attr("cx", function(d,i){return x(count+1)})
 
+
         //increment the counter up one to indicate we are onto the next step.
         count = count + 1
     }
@@ -192,18 +209,7 @@ function animatelines(step) {
     })
 }
 
-function highlight(state, col){
-    //select Point
-    d3.selectAll("circle." + state)
-        .moveToFront()
-        .attr("fill", col)
 
-    //select Line
-    d3.selectAll("line." + state)
-        .moveToFront()
-        .attr("stroke-width", 3)
-        .attr("stroke", col)
-}
 
 //Run These to show interesting things.
 // highlight("TX", selectedColor)

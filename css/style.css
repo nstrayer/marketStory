@@ -1,0 +1,61 @@
+body {
+    font-family: optima;
+    min-height: 2000px;
+    padding-top: 10px;
+}
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.x.axis path {
+    display: none;
+}
+.y.axis path {
+    display: none;
+}
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.pictures {
+    text-align: center
+}
+#resumeDiv {
+    display: none;
+}
+.resumeSections {
+    text-align: center;
+    color: #0CBDE8;
+}
+#resumeButton {
+    border: 1px solid;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.photos {
+    width: 30%;
+    height: 30%;
+}
+
+.projectTitle {
+    font-size: large;
+}
+
+.projectPic {
+    width: 50%;
+}
+
+.project {
+    border-top: 1px dotted;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+hr {
+    clear: both;
+    padding: 10px;
+}
