@@ -43,15 +43,15 @@ d3.csv("stateData.csv", function(data){
     //both scales are called at the same time in the lines I couldn't think of one.
 
     var yNumMarkets = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.numMarkets}))
+        .domain([0,51])
         .range([height - padding, padding])
 
     var yPopPerMarket = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.popPerMarket}))
+        .domain([0,51])
         .range([padding, height - padding])
 
     var yPercAg = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.percAg}))
+        .domain([0,51])
         .range([height - padding, padding])
 
     //First we draw the axis lines:
@@ -84,7 +84,7 @@ d3.csv("stateData.csv", function(data){
         .append("circle")
         .attr("class", function(d){return d.abrev})
         .attr("cx", function(d,i){return x(count)})
-        .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
+        .attr("cy", function(d,i){return yNumMarkets(d.numMarketsRank)})
         .attr("r", 5)
         .attr("fill", color)
         // .on("mouseover", function(d){ highlight(d.abrev, "on", "red") })
@@ -103,9 +103,9 @@ d3.csv("stateData.csv", function(data){
         .attr("id", function(d,i){return "step0_line" + i})
         .attr("class", function(d,i) {return "line step0 " + d.abrev })
         .attr("x1", x(0) )     // x position of the first end of the line
-        .attr("y1", function(d){return yNumMarkets(d.numMarkets)})      // y position of the first end of the line
+        .attr("y1", function(d){return yNumMarkets(d.numMarketsRank)})      // y position of the first end of the line
         .attr("x2", x(1))     // x position of the second end of the line
-        .attr("y2", function(d){return yPopPerMarket(d.popPerMarket)})    // y position of the second end of the line
+        .attr("y2", function(d){return yPopPerMarket(d.popPerMarketRank)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
         .on("mouseover", function(d){
@@ -123,9 +123,9 @@ d3.csv("stateData.csv", function(data){
         .attr("id", function(d,i){return "step1_line" + i})
         .attr("class", function(d,i) {return "line step1 " + d.abrev })
         .attr("x1", x(1))     // x position of the first end of the line
-        .attr("y1", function(d){return yPopPerMarket(d.popPerMarket)})      // y position of the first end of the line
+        .attr("y1", function(d){return yPopPerMarket(d.popPerMarketRank)})      // y position of the first end of the line
         .attr("x2", x(2))     // x position of the second end of the line
-        .attr("y2", function(d){return yPercAg(d.percAg)})    // y position of the second end of the line
+        .attr("y2", function(d){return yPercAg(d.percAgRank)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
         .on("mouseover", function(d){
@@ -176,13 +176,13 @@ d3.csv("stateData.csv", function(data){
             .append("circle")
             .attr("class", function(d){return d.abrev})
             .attr("cx", function(d,i){return x(count)})
-            .attr("cy", function(d){return lastScale(d[last])})
+            .attr("cy", function(d){return lastScale(d[last + "Rank"])})
             .attr("r", 5)
             .attr("fill", color)
             .transition()
             .duration(2500)
             .ease("linear")
-            .attr("cy", function(d){return scale(d[key])})
+            .attr("cy", function(d){return scale(d[key + "Rank"])})
             .attr("cx", function(d,i){return x(count+1)})
 
 
