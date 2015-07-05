@@ -1,5 +1,5 @@
 var states = [],
-    selectedStates = ["VT", "TX", "FL"];
+    selectedStates = [];
 d3.select("#grid").text().split("\n").forEach(function(line, i) {
   var re = /\w+/g, m;
   while (m = re.exec(line)) states.push({
@@ -9,18 +9,18 @@ d3.select("#grid").text().split("\n").forEach(function(line, i) {
     y: i
   });
 });
-var width = parseInt(d3.select("#menu").style("width").slice(0, -2)),
+var mWidth = parseInt(d3.select("#menu").style("width").slice(0, -2)),
     // mWidth = parseInt(d3.select("#menu").style("width").slice(0, -2)),
-    height = $(window).height() - 85;
+    mHeight = $(window).height() - 85;
 
 var svg = d3.select("#menu").append("svg")
-    .attr("height", height)
-    .attr("width", width);
+    .attr("height", mHeight)
+    .attr("width", mWidth);
 var gridWidth = d3.max(states, function(d) { return d.x; }) + 1,
     gridHeight = d3.max(states, function(d) { return d.y; }) + 1,
     cellSize = 40;
 var state = svg.append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .attr("transform", "translate(" + mWidth / 2 + "," + mHeight / 2 + ")")
   .selectAll(".state")
     .data(states)
   .enter().append("g")
@@ -28,14 +28,16 @@ var state = svg.append("g")
     .attr("transform", function(d) { return "translate(" + (d.x - gridWidth / 2) * cellSize + "," + (d.y - gridHeight / 2) * cellSize + ")"; })
     // .on("mouseover", function(d){d3.select(this).classed("state--selected", true)})
     .on("click", function(d){
-        if ($.inArray(d.state, selectedStates) == -1){
-            selectedStates.push(d.state)
+        console.log(d)
+        console.log(selectedStates)
+        if ($.inArray(d.name, selectedStates) == -1){
+            selectedStates.push(d.name)
             highlight(d.name, "on", "red")
             d3.select(this).classed("state--selected", true)
             console.log("Adding")
         } else {
             console.log("taking away")
-            var index = selectedStates.indexOf(d.state)
+            var index = selectedStates.indexOf(d.name)
             selectedStates.splice(index, 1)
             highlight(d.name, "off", "red")
             d3.select(this).classed("state--selected", false)
