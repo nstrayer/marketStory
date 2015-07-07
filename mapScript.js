@@ -32,15 +32,18 @@ var state = svg.append("g")
         console.log(selectedStates)
         if ($.inArray(d.name, selectedStates) == -1){
             selectedStates.push(d.name)
-            highlight(d.name, "on", "red")
-            d3.select(this).classed("state--selected", true)
+            highlight(d.name, "on", colors[selectedStates.length % 11])
+            d3.select(this).select("rect")
+                .style("fill", colors[selectedStates.length % 11])
+
             console.log("Adding")
         } else {
             console.log("taking away")
             var index = selectedStates.indexOf(d.name)
             selectedStates.splice(index, 1)
             highlight(d.name, "off", "red")
-            d3.select(this).classed("state--selected", false)
+            d3.select(this).select("rect")
+                .style("fill", "#dedede")
         }
     })
 state.append("rect")

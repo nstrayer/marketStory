@@ -8,7 +8,7 @@ d3.selection.prototype.moveToFront = function() {
 var width = parseInt(d3.select("#viz").style("width").slice(0, -2)) - 20,
     height = $(window).height() - 85,
     padding = 30,
-    color = "#4daf4a"
+    color = "#a6cee3"
     selectedColor = "#e41a1c";
 
 var svg = d3.select("#viz").append("svg")
@@ -43,15 +43,15 @@ d3.csv("stateData.csv", function(data){
     //both scales are called at the same time in the lines I couldn't think of one.
 
     var yNumMarkets = d3.scale.linear()
-        .domain([0,51])
+        .domain([1,51])
         .range([height - padding, padding])
 
     var yPopPerMarket = d3.scale.linear()
-        .domain([0,51])
+        .domain([1,51])
         .range([padding, height - padding])
 
     var yPercAg = d3.scale.linear()
-        .domain([0,51])
+        .domain([1,51])
         .range([height - padding, padding])
 
     //First we draw the axis lines:
@@ -78,15 +78,15 @@ d3.csv("stateData.csv", function(data){
         .attr("text-anchor", "middle")
         .style("fill", "black")
 
-    svg.selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("class", function(d){return d.abrev})
-        .attr("cx", function(d,i){return x(count)})
-        .attr("cy", function(d,i){return yNumMarkets(d.numMarketsRank)})
-        .attr("r", 5)
-        .attr("fill", color)
+    // svg.selectAll("circle")
+    //     .data(data)
+    //     .enter()
+    //     .append("circle")
+    //     .attr("class", function(d){return d.abrev})
+    //     .attr("cx", function(d,i){return x(count)})
+    //     .attr("cy", function(d,i){return yNumMarkets(d.numMarketsRank)})
+    //     .attr("r", 5)
+    //     .attr("fill", color)
         // .on("mouseover", function(d){ highlight(d.abrev, "on", "red") })
         // .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
         // .on("click", function(d){ changePosition() })
@@ -170,49 +170,26 @@ d3.csv("stateData.csv", function(data){
         }
 
         //draw new circles right on top of the old ones, and animate to new position.
-        svg.selectAll("circle.step" + count+1)
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("class", function(d){return d.abrev})
-            .attr("cx", function(d,i){return x(count)})
-            .attr("cy", function(d){return lastScale(d[last + "Rank"])})
-            .attr("r", 5)
-            .attr("fill", color)
-            .transition()
-            .duration(2500)
-            .ease("linear")
-            .attr("cy", function(d){return scale(d[key + "Rank"])})
-            .attr("cx", function(d,i){return x(count+1)})
+        // svg.selectAll("circle.step" + count+1)
+        //     .data(data)
+        //     .enter()
+        //     .append("circle")
+        //     .attr("class", function(d){return d.abrev})
+        //     .attr("cx", function(d,i){return x(count)})
+        //     .attr("cy", function(d){return lastScale(d[last + "Rank"])})
+        //     .attr("r", 5)
+        //     .attr("fill", color)
+        //     .transition()
+        //     .duration(2500)
+        //     .ease("linear")
+        //     .attr("cy", function(d){return scale(d[key + "Rank"])})
+        //     .attr("cx", function(d,i){return x(count+1)})
 
 
         //increment the counter up one to indicate we are onto the next step.
         count = count + 1
     }
 })
-
-function animatelines(step) {
-    d3.selectAll("." + step).style("opacity","0.5");
-
-    //Select All of the lines and process them one by one
-    d3.selectAll("." + step).each(function(d,i){
-
-    //for some reason .getTotalLength works for paths, but not plain lines.
-    //Busting out some pythagorean theorem to get it done though.
-    var yd = d3.select(this).attr("y2") - d3.select(this).attr("y1"),
-        xd = d3.select(this).attr("x2") - d3.select(this).attr("x1"),
-        totalLength = Math.sqrt(xd*xd + yd*yd);
-
-	d3.select("#" + step + "_" + "line" + i).attr("stroke-dasharray", totalLength + " " + totalLength)
-	  .attr("stroke-dashoffset", totalLength)
-	  .transition()
-	  .duration(2500)
-	  .ease("linear")
-	  .attr("stroke-dashoffset", 0)
-    })
-}
-
-
 
 //Run These to show interesting things.
 // highlight("TX", selectedColor)
