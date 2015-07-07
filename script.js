@@ -54,6 +54,24 @@ d3.csv("stateData.csv", function(data){
         .domain(d3.extent(data, function(d){return d.percAg}))
         .range([height - padding, padding])
 
+    var scales = [yNumMarkets, yPopPerMarket, yPercAg]
+
+    svg.selectAll(".superAxis")
+        .data(scales).enter()
+        .append("g")
+        .attr("transform", function(d,i){return "translate(" + x(i) + ", 0)"})
+        .attr("class", function(d,i){return "axis axis" + i })
+        .each(function(d,i){
+            d3.select(this).call(
+                d3.svg.axis()
+                  .scale(d)
+                //   .ticks(2)
+                  .orient("left")
+            )
+        })
+
+
+
     //First we draw the axis lines:
     steps = ["# of Farmers Markets", "# People Per Market", "% of GDP from Agriculture"]
     svg.selectAll(".axisLines")
@@ -137,7 +155,7 @@ d3.csv("stateData.csv", function(data){
         .style("opacity",0);
 
 
-    console.table(data) //A nice way to checkout out the data.
+    // console.table(data) //A nice way to checkout out the data.
 
     d3.select("h1").on("click", function(){
          changePosition()

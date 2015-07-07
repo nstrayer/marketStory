@@ -13,13 +13,13 @@ var mWidth = parseInt(d3.select("#menu").style("width").slice(0, -2)),
     // mWidth = parseInt(d3.select("#menu").style("width").slice(0, -2)),
     mHeight = $(window).height() - 85;
 
-var svg = d3.select("#menu").append("svg")
+var mSvg = d3.select("#menu").append("svg")
     .attr("height", mHeight)
     .attr("width", mWidth);
 var gridWidth = d3.max(states, function(d) { return d.x; }) + 1,
     gridHeight = d3.max(states, function(d) { return d.y; }) + 1,
     cellSize = 40;
-var state = svg.append("g")
+var state = mSvg.append("g")
     .attr("transform", "translate(" + mWidth / 2 + "," + mHeight / 2 + ")")
   .selectAll(".state")
     .data(states)
