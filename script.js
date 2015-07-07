@@ -56,7 +56,7 @@ d3.csv("stateData.csv", function(data){
 
     var scales = [yNumMarkets, yPopPerMarket, yPercAg]
 
-    svg.selectAll(".superAxis")
+    svg.selectAll(".axis")
         .data(scales).enter()
         .append("g")
         .attr("transform", function(d,i){return "translate(" + x(i) + ", 0)"})
@@ -65,25 +65,11 @@ d3.csv("stateData.csv", function(data){
             d3.select(this).call(
                 d3.svg.axis()
                   .scale(d)
-                //   .ticks(2)
-                  .orient("left")
-            )
+                  .orient("left")  )
         })
-
-
 
     //First we draw the axis lines:
     steps = ["# of Farmers Markets", "# People Per Market", "% of GDP from Agriculture"]
-    svg.selectAll(".axisLines")
-        .data(steps).enter()
-        .append("line")
-        .attr("x1", function(d,i){return x(i)} )     // x position of the first end of the line
-        .attr("y1", height - padding)      // y position of the first end of the line
-        .attr("x2", function(d,i){return x(i)} )     // x position of the second end of the line
-        .attr("y2", padding)    // y position of the second end of the line
-        .attr("stroke", "black")
-        .attr("stroke-width", 1)
-        .style("opacity",0.8);
 
     svg.selectAll(".axisLineText")
         .data(steps).enter()
@@ -105,14 +91,10 @@ d3.csv("stateData.csv", function(data){
         .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
         .attr("r", 5)
         .attr("fill", color)
-        // .on("mouseover", function(d){ highlight(d.abrev, "on", "red") })
-        // .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
-        // .on("click", function(d){ changePosition() })
 
     //Start drawing the trend lines.
     //This is broken up into different steps because in order to animate the lines,
     //they must already be drawn. This also allows us to attach data to them.
-
 
     svg.selectAll(".step0")
         .data(data)
@@ -126,11 +108,6 @@ d3.csv("stateData.csv", function(data){
         .attr("y2", function(d){return yPopPerMarket(d.popPerMarket)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
-        .on("mouseover", function(d){
-            d3.select("strong#stateLabel").text("")
-            d3.select("strong#stateLabel").text(d.State)
-            highlight(d.abrev, "on", "red") })
-        .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
         .style("opacity",0);
 
 
@@ -146,14 +123,7 @@ d3.csv("stateData.csv", function(data){
         .attr("y2", function(d){return yPercAg(d.percAg)})    // y position of the second end of the line
         .attr("stroke", "#99d8c9")
         .attr("stroke-width", 1)
-        .on("mouseover", function(d){
-            d3.select("strong#stateLabel").text("")
-            d3.select("strong#stateLabel").text(d.State)
-            highlight(d.abrev, "on", "red")
-            })
-        .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
         .style("opacity",0);
-
 
     // console.table(data) //A nice way to checkout out the data.
 
@@ -198,39 +168,54 @@ d3.csv("stateData.csv", function(data){
             .attr("r", 5)
             .attr("fill", color)
             .transition()
-            .duration(2500)
+            .duration(1000)
             .ease("linear")
             .attr("cy", function(d){return scale(d[key])})
             .attr("cx", function(d,i){return x(count+1)})
-
-
+            .each("end", function(d,i){
+                if (count < 2){changePosition()}
+            })
         //increment the counter up one to indicate we are onto the next step.
         count = count + 1
+
     }
+
+
+    function animatelines(step) {
+        d3.selectAll("." + step).style("opacity","0.5");
+
+        //Select All of the lines and process them one by one
+        d3.selectAll("." + step).each(function(d,i){
+
+        //for some reason .getTotalLength works for paths, but not plain lines.
+        //Busting out some pythagorean theorem to get it done though.
+        var yd = d3.select(this).attr("y2") - d3.select(this).attr("y1"),
+            xd = d3.select(this).attr("x2") - d3.select(this).attr("x1"),
+            totalLength = Math.sqrt(xd*xd + yd*yd);
+
+    	d3.select("#" + step + "_" + "line" + i).attr("stroke-dasharray", totalLength + " " + totalLength)
+    	  .attr("stroke-dashoffset", totalLength)
+    	  .transition()
+    	  .duration(1000)
+    	  .ease("linear")
+    	  .attr("stroke-dashoffset", 0)
+        })
+    }
+
+    function startViz(){
+        changePosition()
+
+        d3.selectAll(".line")
+            .on("mouseover", function(d){
+                d3.select("strong#stateLabel").text(d.State)
+                highlight(d.abrev, "on", "red")
+                })
+            .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
+    }
+
+    //let's kick it off!
+    startViz()
 })
-
-function animatelines(step) {
-    d3.selectAll("." + step).style("opacity","0.5");
-
-    //Select All of the lines and process them one by one
-    d3.selectAll("." + step).each(function(d,i){
-
-    //for some reason .getTotalLength works for paths, but not plain lines.
-    //Busting out some pythagorean theorem to get it done though.
-    var yd = d3.select(this).attr("y2") - d3.select(this).attr("y1"),
-        xd = d3.select(this).attr("x2") - d3.select(this).attr("x1"),
-        totalLength = Math.sqrt(xd*xd + yd*yd);
-
-	d3.select("#" + step + "_" + "line" + i).attr("stroke-dasharray", totalLength + " " + totalLength)
-	  .attr("stroke-dashoffset", totalLength)
-	  .transition()
-	  .duration(2500)
-	  .ease("linear")
-	  .attr("stroke-dashoffset", 0)
-    })
-}
-
-
 
 //Run These to show interesting things.
 // highlight("TX", selectedColor)
