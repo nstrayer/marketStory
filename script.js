@@ -15,6 +15,11 @@ var svg = d3.select("#viz").append("svg")
     .attr("height", height)
     .attr("width", width)
 
+//We want to have the steps equaly spaced across the screen
+var x = d3.scale.linear()
+    .domain([0,2])
+    .range([padding*4, width - padding*4]);
+
 //A counter variable to keep track of where we are in the visualization.
 var count = 0
 
@@ -33,26 +38,21 @@ d3.csv("stateData.csv", function(data){
         d.percAgRank = +d.percAgRank
     })
 
-    //We want to have the steps equaly spaced across the screen
-    var x = d3.scale.ordinal()
-        .domain(d3.range(3))
-		.rangeRoundBands([padding*2,width],0.2);
-
     //Set up scaling functions for each of the displayed statistics.
     //There is probably a more efficient way of doing this, but given that
     //both scales are called at the same time in the lines I couldn't think of one.
 
     var yNumMarkets = d3.scale.linear()
         .domain(d3.extent(data, function(d){return d.numMarkets}))
-        .range([height - padding, padding])
+        .range([height - padding, padding*2])
 
     var yPopPerMarket = d3.scale.linear()
         .domain(d3.extent(data, function(d){return d.popPerMarket}))
-        .range([padding, height - padding])
+        .range([padding*2, height - padding])
 
     var yPercAg = d3.scale.linear()
         .domain(d3.extent(data, function(d){return d.percAg}))
-        .range([height - padding, padding])
+        .range([height - padding, padding*2])
 
     var scales = [yNumMarkets, yPopPerMarket, yPercAg]
 
@@ -75,7 +75,7 @@ d3.csv("stateData.csv", function(data){
         .data(steps).enter()
         .append("text")
         .attr("x", function(d,i){return x(i)})
-        .attr("y", padding/2)
+        .attr("y", padding)
         .text(function(d){return d})
         .attr("font-family", "optima")
         .attr("font-size", "15px")
