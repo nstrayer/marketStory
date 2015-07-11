@@ -32,7 +32,7 @@ var state = mSvg.append("g")
         console.log(selectedStates)
         if ($.inArray(d.name, selectedStates) == -1){
             selectedStates.push(d.name)
-            highlight(d.name, "on", "red")
+            highlight(d.name, "on", colors[selectedStates.length % 11])
             // d3.select(this).classed("state--selected", true)
             console.log("Adding")
         } else {
