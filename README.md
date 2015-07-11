@@ -28,3 +28,8 @@ Two panel style like the points visualization.
 The menu/nav panel is the grid states map. To highlight lines you click on a given state. 
 
 To deal with mobile/normal use the same paradigm that was used for the points visualization.  
+
+
+## ToDo
+- Add a data info field on the selected states with columns for different metrics. Add rankings next to them for context. e.g. `Michigan 4.2% (31)`. 
+- Maybe add the ability to switch stuff to the ranking view? not sure if it's a good idea. 

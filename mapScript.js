@@ -31,6 +31,8 @@ var state = mSvg.append("g")
         if ($.inArray(d.name, selectedStates) == -1){ highlight(d.name, "on", colors[selectedStates.length % 11])
         } else { highlight(d.name, "off", "red") }
     })
+    .on("mouseover", function(d){ hoverHighlight(d.name, "on") })
+    .on("mouseout", function(d){ hoverHighlight(d.name, "off") })
 state.append("rect")
     .attr("x", -cellSize / 2)
     .attr("y", -cellSize / 2)

@@ -64,3 +64,15 @@ function hoverHighlight(state, onOff){
       }
     }
 }
+
+function massHightlight(states){
+  var oldStates = selectedStates
+  oldStates.forEach(function(d){
+    highlight(d, "off")
+    console.log("turning off!")
+  })
+  states.forEach(function(d){
+    highlight(d, "on")
+    console.log("turning on!")
+  })
+}
