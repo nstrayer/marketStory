@@ -82,16 +82,6 @@ d3.csv("stateData.csv", function(data){
         .attr("text-anchor", "middle")
         .style("fill", "black")
 
-    svg.selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("class", function(d){return d.abrev})
-        .attr("cx", function(d,i){return x(count)})
-        .attr("cy", function(d){return yNumMarkets(d.numMarkets)})
-        .attr("r", 5)
-        .attr("fill", color)
-
     //Start drawing the trend lines.
     //This is broken up into different steps because in order to animate the lines,
     //they must already be drawn. This also allows us to attach data to them.
@@ -157,24 +147,6 @@ d3.csv("stateData.csv", function(data){
             var lastScale = yPercAg
         }
 
-        //draw new circles right on top of the old ones, and animate to new position.
-        svg.selectAll("circle.step" + count+1)
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("class", function(d){return d.abrev})
-            .attr("cx", function(d,i){return x(count)})
-            .attr("cy", function(d){return lastScale(d[last])})
-            .attr("r", 5)
-            .attr("fill", color)
-            .transition()
-            .duration(1000)
-            .ease("linear")
-            .attr("cy", function(d){return scale(d[key])})
-            .attr("cx", function(d,i){return x(count+1)})
-            .each("end", function(d,i){
-                if (count < 2){changePosition()}
-            })
         //increment the counter up one to indicate we are onto the next step.
         count = count + 1
 
@@ -199,6 +171,7 @@ d3.csv("stateData.csv", function(data){
     	  .duration(1000)
     	  .ease("linear")
     	  .attr("stroke-dashoffset", 0)
+        .each("end", function(d,i){changePosition()})
         })
     }
 
@@ -208,15 +181,10 @@ d3.csv("stateData.csv", function(data){
         d3.selectAll(".line")
             .on("mouseover", function(d){
                 d3.select("strong#stateLabel").text(d.State)
-                highlight(d.abrev, "on", "red")
+                hoverHighlight(d.abrev, "on")
                 })
-            .on("mouseout", function(d){ highlight(d.abrev, "off", "hosiods") })
+            .on("mouseout", function(d){ hoverHighlight(d.abrev, "off") })
     }
-
     //let's kick it off!
     startViz()
 })
-
-//Run These to show interesting things.
-// highlight("TX", selectedColor)
-// highlight("VT", "#ff7f00")

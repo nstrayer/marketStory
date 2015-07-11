@@ -2,55 +2,59 @@ var colors = ['rgb(141,211,199)','rgb(255,255,179)','rgb(190,186,218)','rgb(251,
 function highlight(state, onOff , col){
 
     if(onOff == "on"){
-        //select Point
-        d3.selectAll("circle." + state)
-            .moveToFront()
-            .attr("fill", col)
 
         //select Line
         d3.selectAll("line." + state)
             .moveToFront()
             .attr("stroke-width", 3)
             .attr("stroke", col)
+
+        d3.select(".state." + state).classed("state--selected", true)
+
     } else {
-        //select Point
-        d3.selectAll("circle." + state)
-            .moveToFront()
-            .attr("fill", color)
 
         //select Line
         d3.selectAll("line." + state)
             .moveToFront()
             .attr("stroke-width", 1)
             .attr("stroke", color)
+
+        console.log("unselected")
+        d3.select(".state." + state).classed("state--selected", false)
     }
 
 }
 
-function hoverHighlight(state, onOff, col){
+function hoverHighlight(state, onOff){
 
-    if(onOff == "on"){
-        //select Point
-        d3.selectAll("circle." + state)
-            .moveToFront()
-            .attr("fill", col)
+    if (d3.select(".state." + state).classed("state--selected") == false){
+      if(onOff == "on"){
+          //select Line
+          d3.selectAll("line." + state)
+              .moveToFront()
+              .attr("stroke-width", 3)
 
-        //select Line
-        d3.selectAll("line." + state)
-            .moveToFront()
-            .attr("stroke-width", 3)
-            .attr("stroke", col)
-    } else {
-        //select Point
-        d3.selectAll("circle." + state)
-            .moveToFront()
-            .attr("fill", color)
+          d3.select(".state." + state)
+            .select("rect")
+            .attr("x", -cellSize * 1.2 / 2)
+            .attr("y", -cellSize * 1.2 / 2)
+            .attr("width", cellSize * 1.2 - 1)
+            .attr("height", cellSize * 1.2 - 1)
 
-        //select Line
-        d3.selectAll("line." + state)
+      } else {
+
+          //select Line
+          d3.selectAll("line." + state)
+              .moveToFront()
+              .attr("stroke-width", 1)
+
+          d3.select(".state." + state)
             .moveToFront()
-            .attr("stroke-width", 1)
-            .attr("stroke", color)
+            .select("rect")
+            .attr("x", -cellSize / 2)
+            .attr("y", -cellSize / 2)
+            .attr("width", cellSize - 1)
+            .attr("height", cellSize - 1)
+      }
     }
-
 }
