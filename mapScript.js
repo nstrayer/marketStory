@@ -28,26 +28,15 @@ var state = mSvg.append("g")
     .attr("transform", function(d) { return "translate(" + (d.x - gridWidth / 2) * cellSize + "," + (d.y - gridHeight / 2) * cellSize + ")"; })
     // .on("mouseover", function(d){d3.select(this).classed("state--selected", true)})
     .on("click", function(d){
-        console.log(d)
-        console.log(selectedStates)
-        if ($.inArray(d.name, selectedStates) == -1){
-            selectedStates.push(d.name)
-            highlight(d.name, "on", colors[selectedStates.length % 11])
-            // d3.select(this).classed("state--selected", true)
-            console.log("Adding")
-        } else {
-            console.log("taking away")
-            var index = selectedStates.indexOf(d.name)
-            selectedStates.splice(index, 1)
-            highlight(d.name, "off", "red")
-            // d3.select(this).classed("state--selected", false)
-        }
+        if ($.inArray(d.name, selectedStates) == -1){ highlight(d.name, "on", colors[selectedStates.length % 11])
+        } else { highlight(d.name, "off", "red") }
     })
 state.append("rect")
     .attr("x", -cellSize / 2)
     .attr("y", -cellSize / 2)
     .attr("width", cellSize - 1)
     .attr("height", cellSize - 1)
+    .attr("fill", "#dedede")
 state.append("text")
     .attr("dy", ".35em")
     .text(function(d) { return d.name; });

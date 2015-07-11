@@ -8,7 +8,7 @@ d3.selection.prototype.moveToFront = function() {
 var width = parseInt(d3.select("#viz").style("width").slice(0, -2)) - 20,
     height = $(window).height() - 85,
     padding = 30,
-    color = "#4daf4a"
+    color = "#99d8c9"
     selectedColor = "#e41a1c";
 
 var svg = d3.select("#viz").append("svg")
@@ -96,7 +96,7 @@ d3.csv("stateData.csv", function(data){
         .attr("y1", function(d){return yNumMarkets(d.numMarkets)})      // y position of the first end of the line
         .attr("x2", x(1))     // x position of the second end of the line
         .attr("y2", function(d){return yPopPerMarket(d.popPerMarket)})    // y position of the second end of the line
-        .attr("stroke", "#99d8c9")
+        .attr("stroke", color)
         .attr("stroke-width", 1)
         .style("opacity",0);
 
@@ -111,7 +111,7 @@ d3.csv("stateData.csv", function(data){
         .attr("y1", function(d){return yPopPerMarket(d.popPerMarket)})      // y position of the first end of the line
         .attr("x2", x(2))     // x position of the second end of the line
         .attr("y2", function(d){return yPercAg(d.percAg)})    // y position of the second end of the line
-        .attr("stroke", "#99d8c9")
+        .attr("stroke",color)
         .attr("stroke-width", 1)
         .style("opacity",0);
 
@@ -154,7 +154,7 @@ d3.csv("stateData.csv", function(data){
 
 
     function animatelines(step) {
-        d3.selectAll("." + step).style("opacity","0.5");
+        d3.selectAll("." + step).style("opacity","0.3");
 
         //Select All of the lines and process them one by one
         d3.selectAll("." + step).each(function(d,i){
@@ -180,7 +180,7 @@ d3.csv("stateData.csv", function(data){
 
         d3.selectAll(".line")
             .on("mouseover", function(d){
-                d3.select("strong#stateLabel").text(d.State)
+                // d3.select("strong#stateLabel").text(d.State)
                 hoverHighlight(d.abrev, "on")
                 })
             .on("mouseout", function(d){ hoverHighlight(d.abrev, "off") })

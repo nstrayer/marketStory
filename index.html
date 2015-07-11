@@ -2,16 +2,22 @@
 
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
+
+body {
+  font-family: optima;
+}
 .state rect {
-  fill: #dedede;
+  /*fill: #dedede;*/
 }
 .state text {
   font: 12px sans-serif;
   text-anchor: middle;
+  pointer-events: none;
 }
 .state--selected rect {
-  fill: #9f4a6c;
+  /*fill: #9f4a6c;*/
 }
 .state--selected text {
   fill: white;
@@ -30,14 +36,14 @@
 }
 </style>
 
-<link href="css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="jquery.min.js"></script>
 <script src="d3.min.js"></script>
 <!-- <script src="http://d3js.org/topojson.v1.min.js"></script> -->
 <!-- <script src="http://d3js.org/queue.v1.min.js"></script> -->
 
 <div id = "menu" class = "col-md-6 col-sm-12">
-<h1> State: </h1> <strong id = "stateLabel"> </strong>
+<h1> Farmer's Markets in the U.S. </h1>
+<p> Click on a state to see its path through the different metrics. </p>
 </div>
 
 <div id = "viz" class = "col-md-6 col-sm-12"></div>
@@ -55,5 +61,5 @@ HI AK    TX             FL
 </script>
 <script src = "someFunctions.js"></script>
 <script src = "mapScript.js"></script>
-<script src="script.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src = "script.js"></script>
+<script src = "js/bootstrap.min.js"></script>
