@@ -18,10 +18,11 @@ var mSvg = d3.select("#menu").append("svg")
 
 var gridWidth  = d3.max(states, function(d) { return d.x; }) + 1,
     gridHeight = d3.max(states, function(d) { return d.y; }) + 1,
-    cellSize = 40;
+    cellSize   = mWidth/ 13;
 
 var state = mSvg.append("g")
-    .attr("transform", "translate(" + mWidth / 2 + "," + mHeight / 2 + ") scale(1.2)")
+    .attr("transform", "translate(" + mWidth / 2 + "," + mHeight / 2 + ")")
+    // .attr("transform", "translate(" + mWidth / 2 + "," + mHeight / 2 + ") scale(1.2)")
   .selectAll(".state")
     .data(states)
   .enter().append("g")
@@ -45,7 +46,7 @@ state.append("text")
 //Let's make a mini menu for selecting groupings.
 groupX = d3.scale.linear()
   .domain([0, groupings.length - 1])
-  .range([cellSize*1.4, mWidth/2 ])
+  .range([cellSize*1.4, mWidth - cellSize*1.4 ])
 
 groupY = d3.scale.linear()
   .domain([0, 2])
@@ -56,7 +57,7 @@ mSvg.selectAll(".groupings")
   .append("text")
   .attr("class", "groupings")
   .attr("x", function(d,i){return groupX(i)})
-  .attr("y", function(d,i){return groupY(1.3)})
+  .attr("y", function(d,i){return groupY(0.5)})
   .attr("font-size", "1.1em")
   .attr("text-anchor", "middle")
   .text(function(d){return d.group})
