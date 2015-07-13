@@ -41,3 +41,40 @@ state.append("rect")
 state.append("text")
     .attr("dy", ".35em")
     .text(function(d) { return d.name; });
+
+//Let's make a mini menu for selecting groupings.
+groupX = d3.scale.linear()
+  .domain([0, groupings.length - 1])
+  .range([cellSize*1.4, mWidth/2 ])
+
+groupY = d3.scale.linear()
+  .domain([0, 2])
+  .range([cellSize, mHeight/4])
+
+mSvg.selectAll(".groupings")
+  .data(groupings).enter()
+  .append("text")
+  .attr("class", "groupings")
+  .attr("x", function(d,i){return groupX(i)})
+  .attr("y", function(d,i){return groupY(1.3)})
+  .attr("font-size", "1.1em")
+  .attr("text-anchor", "middle")
+  .text(function(d){return d.group})
+  .on("mouseover", function(d){ d3.select(this).attr("font-size", "1.3em") })
+  .on("mouseout", function(d){
+    if (!d3.select(this).classed("selected")){
+      d3.select(this).attr("font-size", "1.1em")} })
+  .on("click", function(d){
+    if (!d3.select(this).classed("selected")){ //if it's not selected yet
+      massHightlight(d.states)
+      d3.selectAll(".groupings").attr("font-size", "1.1em")
+      d3.select(this)
+        // .attr("fill", "steelblue")
+        .attr("font-size", "1.35em")
+        .classed("selected", true)
+    } else {
+      massHightlight([])
+      d3.selectAll(".groupings")
+        // .attr("fill", "black")
+        .classed("selected", false)
+    }})

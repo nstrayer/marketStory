@@ -1,61 +1,43 @@
+
 body {
-    font-family: optima;
-    min-height: 2000px;
-    padding-top: 10px;
+  font-family: optima;
 }
-.axis path, .axis line {
+.state rect {
+  /*fill: #dedede;*/
+}
+.state text {
+  font: 12px sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.state--selected rect {
+  /*fill: #9f4a6c;*/
+}
+.state--selected text {
+  fill: white;
+}
+
+.axis path,
+.axis line {
     fill: none;
-    stroke: #000;
+    stroke: black;
     shape-rendering: crispEdges;
 }
-.x.axis path {
-    display: none;
-}
-.y.axis path {
-    display: none;
-}
-.line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
 }
 
-.pictures {
-    text-align: center
-}
-#resumeDiv {
-    display: none;
-}
-.resumeSections {
-    text-align: center;
-    color: #0CBDE8;
-}
-#resumeButton {
-    border: 1px solid;
-    border-radius: 0.5em;
-    background-color: rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-.photos {
-    width: 30%;
-    height: 30%;
+strong.normal{
+  font-weight: normal;
+  color: "black";
 }
 
-.projectTitle {
-    font-size: large;
+strong.choosen{
+  color: "red";
 }
 
-.projectPic {
-    width: 50%;
-}
-
-.project {
-    border-top: 1px dotted;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
-hr {
-    clear: both;
-    padding: 10px;
+.groupings.selected {
+  color: "red";
 }
