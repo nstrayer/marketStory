@@ -178,12 +178,15 @@ d3.csv("stateData.csv", function(data){
     function startViz(){
         changePosition()
 
-        d3.selectAll(".line")
-            .on("mouseover", function(d){
-                // d3.select("strong#stateLabel").text(d.State)
-                hoverHighlight(d.abrev, "on")
-                })
-            .on("mouseout", function(d){ hoverHighlight(d.abrev, "off") })
+        window.setTimeout(function(){
+          d3.selectAll(".line")
+              .on("mouseover", function(d){ hoverHighlight(d.abrev, "on") })
+              .on("mouseout", function(d){ hoverHighlight(d.abrev, "off") })
+
+          d3.selectAll(".state")
+              .on("mouseover", function(d){ hoverHighlight(d.name, "on") })
+              .on("mouseout", function(d){ hoverHighlight(d.name, "off") })
+        }, 2000)
     }
     //let's kick it off!
     startViz()
