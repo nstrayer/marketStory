@@ -18,7 +18,7 @@ var svg = d3.select("#viz").append("svg")
 //We want to have the steps equaly spaced across the screen
 var x = d3.scale.linear()
     .domain([0,2])
-    .range([padding*4, width - padding*4]);
+    .range([padding*4, width - padding*4.7]);
 
 var yNumMarkets = d3.scale.linear()
     .range([height - padding, padding*2])
@@ -77,7 +77,7 @@ d3.csv("stateData.csv", function(data){
     svg.selectAll(".axisLineText")
         .data(steps).enter()
         .append("text")
-        .attr("x", function(d,i){return x(i)})
+        .attr("x", function(d,i){return x(i - 0.1)})
         .attr("y", padding)
         .text(function(d){return d})
         .attr("font-family", "optima")
