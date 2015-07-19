@@ -44,6 +44,28 @@ function highlight(state, onOff , col){
 
 function hoverHighlight(state, onOff){
 
+    //define behavior for showing text values of metrics.
+    if (onOff == "on"){ //add text
+        d3.select(".line." + state)//grab the line and its associated data
+            .each(function(d,i){
+                var labelData = [
+                    {"ident": "numMarkets",  "label": Math.round(d.numMarkets),   "val": yNumMarkets(d.numMarkets)},
+                    {"ident": "popPerMaret", "label": Math.round(d.popPerMarket), "val": yPopPerMarket(d.popPerMarket)},
+                    {"ident": "percAg",      "label": Math.round(d.percAg * 100)/100,       "val": yPercAg(d.percAg)}
+                ]
+
+                svg.selectAll("valueLabels")
+                    .data(labelData).enter()
+                    .append("text")
+                    .attr("class", "valueLabels")
+                    .attr("id", function(d){return d.ident})
+                    .attr("y",  function(d){return d.val})
+                    .attr("x",  function(d,i){return x(i + 0.01)})
+                    .text(function(d){return d.label})
+            })
+    }else { //remove it
+        d3.selectAll(".valueLabels").remove()
+    }
     if (d3.select(".state." + state).classed("state--selected") == false){
       if(onOff == "on"){
           //select Line
@@ -126,17 +148,3 @@ function hoverInteraction(on){
         .on("mouseout",  function(d){})
   }
 }
-
-d3.select("#newEngland").on("click", function(){
-  massHightlight(newEngland)
-  d3.select("Strong").classed("normal", true)
-  d3.select(this).classed("normal", false)
-  d3.select(this).classed("chosen", true)
-})
-
-d3.select("#outliers").on("click", function(){
-  massHightlight(outliers)
-  d3.select("Strong").classed("normal", true)
-  d3.select(this).classed("normal", false)
-  d3.select(this).classed("chosen", true)
-})

@@ -10,7 +10,7 @@ d3.select("#grid").text().split("\n").forEach(function(line, i) {
   });
 });
 var mWidth = parseInt(d3.select("#menu").style("width").slice(0, -2)),
-    mHeight = $(window).height() - 85;
+    mHeight = $(window).height() * 0.7;
 
 var mSvg = d3.select("#menu").append("svg")
     .attr("height", mHeight)
@@ -56,7 +56,7 @@ mSvg.selectAll(".groupings")
   .data(groupings).enter()
   .append("text")
   .attr("class", "groupings")
-  .attr("x", function(d,i){return groupX(i)})
+  .attr("x", function(d,i){return groupX(i * .7)})
   .attr("y", function(d,i){return groupY(0.5)})
   .attr("font-size", "1.1em")
   .attr("text-anchor", "middle")

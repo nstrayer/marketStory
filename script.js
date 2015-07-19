@@ -20,6 +20,15 @@ var x = d3.scale.linear()
     .domain([0,2])
     .range([padding*4, width - padding*4]);
 
+var yNumMarkets = d3.scale.linear()
+    .range([height - padding, padding*2])
+
+var yPopPerMarket = d3.scale.linear()
+    .range([padding*2, height - padding])
+
+var yPercAg = d3.scale.linear()
+    .range([height - padding, padding*2])
+
 //A counter variable to keep track of where we are in the visualization.
 var count = 0
 
@@ -42,17 +51,11 @@ d3.csv("stateData.csv", function(data){
     //There is probably a more efficient way of doing this, but given that
     //both scales are called at the same time in the lines I couldn't think of one.
 
-    var yNumMarkets = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.numMarkets}))
-        .range([height - padding, padding*2])
+    yNumMarkets.domain(d3.extent(data, function(d){return d.numMarkets}))
 
-    var yPopPerMarket = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.popPerMarket}))
-        .range([padding*2, height - padding])
+    yPopPerMarket.domain(d3.extent(data, function(d){return d.popPerMarket}))
 
-    var yPercAg = d3.scale.linear()
-        .domain(d3.extent(data, function(d){return d.percAg}))
-        .range([height - padding, padding*2])
+    yPercAg.domain(d3.extent(data, function(d){return d.percAg}))
 
     var scales = [yNumMarkets, yPopPerMarket, yPercAg]
 
@@ -120,6 +123,10 @@ d3.csv("stateData.csv", function(data){
     d3.select("h1").on("click", function(){
          changePosition()
     })
+
+
+
+    //-------------------------------------------------------------------------------------
     //I put my functions down here.
 
     //Move the circle and animate the lines.
@@ -149,7 +156,6 @@ d3.csv("stateData.csv", function(data){
 
         //increment the counter up one to indicate we are onto the next step.
         count = count + 1
-
     }
 
 
@@ -174,6 +180,11 @@ d3.csv("stateData.csv", function(data){
         .each("end", function(d,i){changePosition()})
         })
     }
+
+
+
+
+
 
     function startViz(){
         changePosition()
