@@ -1,0 +1,43 @@
+
+body {
+  font-family: optima;
+}
+.state rect {
+  /*fill: #dedede;*/
+}
+.state text {
+  font: 12px sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.state--selected rect {
+  /*fill: #9f4a6c;*/
+}
+.state--selected text {
+  fill: white;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: optima;
+    font-size: 11px;
+}
+
+strong.normal{
+  font-weight: normal;
+  color: "black";
+}
+
+strong.choosen{
+  color: "red";
+}
+
+.groupings.selected {
+  color: "red";
+}
