@@ -68,14 +68,14 @@ mSvg.selectAll(".groupings")
   .on("click", function(d){
     if (!d3.select(this).classed("selected")){ //if it's not selected yet
       massHightlight(d.states)
-      d3.selectAll(".groupings").attr("font-size", "1.1em").classed("selected", false) // deselect all others
+      d3.selectAll(".groupings")
+        .attr("font-size", "1.1em")
+        .classed("selected", false) // deselect all others
       d3.select(this)
-        // .attr("fill", "steelblue")
         .attr("font-size", "1.35em")
         .classed("selected", true)
     } else {
       massHightlight([])
       d3.selectAll(".groupings")
-        // .attr("fill", "black")
         .classed("selected", false)
-    }})
+    }});

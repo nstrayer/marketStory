@@ -124,13 +124,13 @@ function massHightlight(states){
   oldStates.forEach(function(d,i){
     window.setTimeout(function(){
       highlight(d, "off");
-      console.log("turning off!", d.abrev);
+      //console.log("turning off!", d.abrev);
     }, 1);
   });
   states.forEach(function(d,i){
     stateTimeouts.push(window.setTimeout(function(){
       highlight(d, "on");
-      console.log("turning on!", d.abrev);
+      //console.log("turning on!", d.abrev);
     }, 180*i));
   });
 }
