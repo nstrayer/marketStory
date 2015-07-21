@@ -98,6 +98,7 @@ function hoverHighlight(state, onOff){
     }
 }
 
+var stateTimeouts = [];
 function massHightlight(states){
   var oldStates = selectedStates
 
@@ -114,19 +115,24 @@ function massHightlight(states){
   //   }
   // }
 
+  //don't highlight the rest of the states if we've chosen new states
+  stateTimeouts.forEach(function(d,i){
+    clearTimeout(d);
+  });
+  stateTimeouts.length = 0; //empties the current array without creating a new one
+
   oldStates.forEach(function(d,i){
     window.setTimeout(function(){
-      highlight(d, "off")
-      console.log(i)
-    }, 1)
-
-  })
+      highlight(d, "off");
+      console.log("turning off!", d.abrev);
+    }, 1);
+  });
   states.forEach(function(d,i){
-    window.setTimeout(function(){
-      highlight(d, "on")
-      console.log("turning on!")
-    }, 180*i)
-  })
+    stateTimeouts.push(window.setTimeout(function(){
+      highlight(d, "on");
+      console.log("turning on!", d.abrev);
+    }, 180*i));
+  });
 }
 
 function hoverInteraction(on){
