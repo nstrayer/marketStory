@@ -37,7 +37,9 @@ strong.normal{
 strong.choosen{
   color: "red";
 }
-
+.groupings {
+  cursor: default;
+}
 .groupings.selected {
   color: "red";
 }
