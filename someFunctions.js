@@ -140,7 +140,15 @@ function hoverInteraction(on){
     d3.selectAll(".line")
         .on("mouseover", function(d){ hoverHighlight(d.abrev, "on") })
         .on("mouseout",  function(d){ hoverHighlight(d.abrev, "off") })
-
+        .on("click", function(d){
+            //todo: extract to a function; this is the same code as used in mapScript.js
+            if ($.inArray(d.abrev, selectedStates) == -1){
+              highlight(d.abrev, "on", colors[selectedStates.length % 11]);
+            }
+            else {
+              highlight(d.abrev, "off", "red");
+            }
+        });
     d3.selectAll(".state")
         .on("mouseover", function(d){ hoverHighlight(d.name, "on") })
         .on("mouseout",  function(d){ hoverHighlight(d.name, "off") })
@@ -148,7 +156,7 @@ function hoverInteraction(on){
     d3.selectAll(".line")
         .on("mouseover", function(d){})
         .on("mouseout",  function(d){})
-
+        .on("click", function(d){})
     d3.selectAll(".state")
         .on("mouseover", function(d){})
         .on("mouseout",  function(d){})
