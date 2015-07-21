@@ -119,7 +119,7 @@ function massHightlight(states){
   stateTimeouts.forEach(function(d,i){
     clearTimeout(d);
   });
-  stateTimeouts.length = 0; //empties the current array without creating a new one
+  stateTimeouts = [];
 
   oldStates.forEach(function(d,i){
     window.setTimeout(function(){
